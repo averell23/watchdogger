@@ -35,4 +35,5 @@ Jeweler::Tasks.new do |s|
   s.add_dependency('averell23-assit', '>= 0.1.2')
   s.add_dependency('rmail', '>= 1.0.0')
   s.add_dependency('builder', '>= 2.1.2')
+  s.add_dependency('optiflag', '>= 0.6.5')
 end

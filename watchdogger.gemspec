@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{watchdogger}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Daniel Hahn"]
@@ -29,16 +29,19 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<averell23-assit>, [">= 0.1.2"])
       s.add_runtime_dependency(%q<rmail>, [">= 1.0.0"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_runtime_dependency(%q<optiflag>, [">= 0.6.5"])
     else
       s.add_dependency(%q<file-tail>, [">= 1.0.3"])
       s.add_dependency(%q<averell23-assit>, [">= 0.1.2"])
       s.add_dependency(%q<rmail>, [">= 1.0.0"])
       s.add_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_dependency(%q<optiflag>, [">= 0.6.5"])
     end
   else
     s.add_dependency(%q<file-tail>, [">= 1.0.3"])
     s.add_dependency(%q<averell23-assit>, [">= 0.1.2"])
     s.add_dependency(%q<rmail>, [">= 1.0.0"])
     s.add_dependency(%q<builder>, [">= 2.1.2"])
+    s.add_dependency(%q<optiflag>, [">= 0.6.5"])
   end
 end
