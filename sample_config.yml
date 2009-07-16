@@ -1,0 +1,16 @@
+# Watchdogger sample configuration
+
+actions:
+  log_it: 
+    type: log_action
+    
+watchers:
+  test_hn:
+    type: http_watcher
+    url: http://www.foobar.or/
+    actions: log_it
+    
+interval: 3
+logfile: daemon.log
+pidfile: watcher.pid
+    

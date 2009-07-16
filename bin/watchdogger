@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'watchdogger'
+
+module DoggerFlags extend OptiFlagSet
+  optional_flag 'config' do
+    alternate_forms 'c'
+    long_form 'configuration'
+    description 'Configuration file from which to read the servers to guard. Defaults to .watchdogger.yml in the users config dir.'
+  end
+  
+  optional_switch_flag 'daemon' do
+    alternate_forms 'd'
+    long_form 'daemonize'
+    description 'Run as a daemon, using the configured pidfile or .watchdogger.pid in your home directory'
+  end
+  
+  optional_switch_flag 'shutdown' do
+    alternate_forms 's'
+    long_form 'shutdown'
+    description 'Shutdown the daemon. You must given the -daemon flag in the same way as on startup'
+  end
+  
+  optional_switch_flag 'status' do
+    description 'Get the daemon status'
+  end
+  
+  and_process!
+end
+
+flags = DoggerFlags.flags
+config_file_name = flags.config || File.join(Etc.getpwuid.dir, '.watchdogger.yml')
+
+begin
+  config = YAML.load_file(config_file_name)
+  WatchDogger.init_system(config)
+  if(flags.status)
+    puts WatchDogger.check_daemon ? "The daemon is running." : "The daemon seems to be dead."
+  elsif(flags.shutdown)
+    puts "Shutting down the old daemon"
+    WatchDogger.shutdown_daemon
+  elsif(flags.daemon)
+    puts "Starting daemon."
+    WatchDogger.daemon
+  else
+    puts "Starting in foreground."
+    WatchDogger.watch_loop
+  end
+rescue SystemExit
+  # nothing
+rescue Exception => e
+  puts "Problem with this command: #{e.message}. Exiting."
+  exit(1)
+end

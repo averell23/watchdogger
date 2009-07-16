@@ -1,0 +1,86 @@
+= Watchdogger
+
+Watchdogger is a simple ruby program that will monitor your log file or web 
+page (and potentially other stuff, too) and take action if something is amiss.
+It is intentionally simple, so there is less chance of having things go wrong
+with the watchdog itself.
+
+If you want to build more complicated reporting or such, you could do so 
+separately and act on notifications from the watchdog.
+
+= Installation
+
+Should be a matter of a simple
+
+  gem install averell23-watchdogger
+
+= Quick start
+
+You will have to make a configuration file like this:
+
+  # Actions you want to execute
+  actions:
+    log_event:
+      type: log_action
+      severity: info
+    restart_server:
+      type: kill_process
+      pidfile: /var/pid/server.pid
+  # Watchers: Things you want to monitor
+  watchers:
+    check_my_site:
+      type: http_watcher
+      url: http://www.mysite.some/
+      content_match: 'some.*other?string'
+      actions: 
+        - log_event
+        - restart_server
+  # Run each minute
+  interval: 60
+  logfile: /mystuff/dogger.log
+  log_level: info
+
+If your log file is called watcher.yml, you could call the watchdog script with
+
+  watchdogger -c watcher.yml
+
+(If you omit the log file from the configuration, you'll also see the log 
+output on your console). 
+
+The script above will check each minute if the web site responds and if the body
+matches the given regular expression. If not, it will log a message and restart
+the server.
+
+There are other options too, just check the API docs for more.
+
+To find out the options of the program, call
+
+  watchdogger --help
+
+= Why Watchdogger?
+
+I wrote this to monitor our instance of Tomcat. While there are other scripts
+around, they seem to be either "quick" shell scripts that require a standard
+linux layout, or potentially "Enterprise" solutions with a lot of overhead.
+
+This script is just plain Ruby and does not depend on external libraries. So
+you should be able to install the gem, set up your configuration and be 
+good to go. It doesn't even assume a particular install location.
+
+(In the future there may be some actions or things that require jruby, to 
+monitor java servers)
+
+= What if Watchdogger dies?
+
+Watchdogger has been designed to run as a daemon, instead of being a cron job
+that needs to be called every few minutes. This has several advantages: 
+We can have state information throughout the session, we can spawn helper 
+processes if needed, etc.
+
+However, the Watchdogger process may die for some reason, which would not be
+a good thing. 
+
+There is an easy solution, though: Just *do* install Watchdogger
+as a cron job. It will check if the old daemon process is still running and
+exit with code 1 if that's the case. If the old process is stale, it will 
+restart itself.
