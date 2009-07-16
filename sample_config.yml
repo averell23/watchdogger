@@ -11,6 +11,6 @@ watchers:
     actions: log_it
     
 interval: 3
-logfile: daemon.log
+# logfile: daemon.log
 pidfile: watcher.pid
-    
+log_level: warn

@@ -9,7 +9,7 @@ class DogLog # :nodoc:
     # but should not usually be called on an active log.
     def setup(logfile, severity)
       @logfile = logfile
-      @severity = severity
+      @severity = Logger.const_get(severity.upcase)
       if(@logger)
         assit_fail('Resetting logfile')
         @logger.close if(@logger.respond_to?(:close))

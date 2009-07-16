@@ -25,6 +25,10 @@ module DoggerFlags extend OptiFlagSet
     description 'Get the daemon status'
   end
   
+  optional_switch_flag 'trace' do
+    description 'Show trace in case of errors.'
+  end
+  
   and_process!
 end
 
@@ -50,5 +54,8 @@ rescue SystemExit
   # nothing
 rescue Exception => e
   puts "Problem with this command: #{e.message}. Exiting."
+  if(flags.trace)
+    puts e.backtrace
+  end
   exit(1)
 end
