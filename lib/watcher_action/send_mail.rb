@@ -38,7 +38,7 @@ module WatcherAction
     def execute(event)
       msg = RMail::Message.new
       msg.header.to = @mail_to
-      receipient = msg.header.to.split(',').first
+      receipient = msg.header.to.to_s.split(',').first
       msg.header.from = @sender
       msg.header.subject = @subject % [event.message]
       if(@body.to_s == 'xml')
