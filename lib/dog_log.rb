@@ -8,8 +8,12 @@ class DogLog # :nodoc:
     # Set the log file and severity. This will reset the current logger,
     # but should not usually be called on an active log.
     def setup(logfile, severity)
-      @logfile = logfile
-      @severity = severity.is_a?(Fixnum) ? severity : Logger.const_get(severity.upcase)
+      @logfile = logfile || STDERR
+      @severity = if(severity)
+        severity.is_a?(Fixnum) ? severity : Logger.const_get(severity.upcase)
+      else
+        Logger::DEBUG
+      end
       if(@logger)
         assit_fail('Resetting logfile')
         @logger.close if(@logger.respond_to?(:close))
@@ -22,10 +26,8 @@ class DogLog # :nodoc:
     # If nothing is configured, we log to STDERR by default
     def logger
       @logger ||= begin
-        @logfile ||= STDERR
-        severity = @severity || Logger::DEBUG
         logger = Logger.new(get_log_io, 3)
-        logger.level = severity
+        logger.level = @severity
         logger
       end
     end
