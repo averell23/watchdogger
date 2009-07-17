@@ -1,10 +1,11 @@
 module WatcherAction
   
   # Kills the process with the given PID.
-  # Options: 
   #
-  #  pidfile    - The file containing the process id
-  #  signal     - The signal to send to the process. Defaults to KILL
+  # =Options
+  #
+  # [*pidfile*] The file containing the process id
+  # [*signal*] The signal to send to the process. Defaults to KILL
   class KillProcess
     
     def initialize(config)

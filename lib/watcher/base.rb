@@ -6,20 +6,22 @@ module Watcher
   # trouble). Each watcher will have one or more actions attached that will be called if the
   # watched condition is triggered.
   #
+  # =Options
+  #
   # Each watcher will accept the following options, which are handled by the superclass:
   #
-  #   severity  - Severity of the event. Each time the event is triggered, the watcher will
-  #               add this value to the internal "severity". If the internal severity reaches
-  #               100, the action is triggered. This means that with a severity of 100 the
-  #               action is run each time the watcher triggers. With a severity of 1, it is
-  #               only executed every 100th time. The global mechanism will reset the
-  #               severity once the action is triggered. The watcher class may decide
-  #               to reset the severity also on other occasions. Default: 100
+  # [*severity*] Severity of the event. Each time the event is triggered, the watcher will
+  #              add this value to the internal "severity". If the internal severity reaches
+  #              100, the action is triggered. This means that with a severity of 100 the
+  #              action is run each time the watcher triggers. With a severity of 1, it is
+  #              only executed every 100th time. The global mechanism will reset the
+  #              severity once the action is triggered. The watcher class may decide
+  #              to reset the severity also on other occasions. Default: 100
   #   
-  #   actions   - The actions that should be executed when the watcher triggers. These 
-  #               are names of actions that have been set up previously. (Required)
+  # [*actions*] The actions that should be executed when the watcher triggers. These 
+  #             are names of actions that have been set up previously. (Required)
   #  
-  #   warn_actions - Additional actions that are executed if the watcher triggers, but the 
+  # [*warn_actions*] Additional actions that are executed if the watcher triggers, but the 
   #                  severity for a real action is not yet reached.
   #
   # Each watcher object must respond to the #watch_it! method. It must check the watched condition

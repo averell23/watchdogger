@@ -9,13 +9,11 @@ module Watcher
   # 
   # = Options
   # 
-  #   logfile       - The log file to watch (required)
-  #   match         - A regular expression against which the log file will be matched (required)
-  #   reopen_after  - A number indicating after how many "unchanged" checks the file will
-  #                   be reopened. Defaults to 10.
-  #   interval_first, interval_max are the start and the max value for waiting on an unchanged
-  #   log file. They default to 60 (1 minute) and 300 (5 minutes). The log file will
-  #   be considered stale and reopened after max_value * 3.
+  # [*logfile*] The log file to watch (required)
+  # [*match*] A regular expression against which the log file will be matched (required)
+  # [*interval_first, interval_max*] The start and the max value for waiting on an unchanged
+  #                                  log file. They default to 60 (1 minute) and 300 (5 minutes). 
+  #                                  The log file will be considered stale and reopened after max_value * 3.
   #
   # = Warning
   # 

@@ -7,20 +7,20 @@ module WatcherAction
   # fancy features (you may want to do that handling externally) and will only
   # use unencrypted smtp network connections.
   # 
-  # Options for this action:
+  # =Options
   #
-  #   to             - Email address to which to send the message. May be a list. (required)
-  #   sender         - Email address of the person sending the mail (required)
-  #   subject        - Subject of the message. You can put %s for the event message. (defaults if not set)
-  #   body           - Body of the email message. If set to 'xml', it will include an
-  #                    XML representation of the event. If not set, it will default
-  #                    to a sensible description of the event. You can include the
-  #                    event's message as for the subject
-  #   server         - Address or name of the mail server to use (required)
-  #   port           - Port to connect to (default: 25)
-  #   user           - Mail server user name
-  #   pass           - Mail server password
-  #   authentication - Authentication method (default: plain)
+  # [*to*] Email address to which to send the message. May be a list. (required)
+  # [*sender*] Email address of the person sending the mail (required)
+  # [*subject*] Subject of the message. You can put %s for the event message. (defaults if not set)
+  # [*body*] Body of the email message. If set to 'xml', it will include an
+  #          XML representation of the event. If not set, it will default
+  #          to a sensible description of the event. You can include the
+  #          event's message as for the subject
+  # [*server*] Address or name of the mail server to use (required)
+  # [*port*] Port to connect to (default: 25)
+  # [*user*] Mail server user name
+  # [*pass*] Mail server password
+  # [*authentication*] Authentication method (default: plain)
   class SendMail
     
     def initialize(config)

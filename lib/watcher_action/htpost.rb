@@ -2,11 +2,11 @@ module WatcherAction
   
   # This action posts the event to a given URL. It may use plain HTTP Authentication
   #
-  # Options for this Action:
+  # = Options
   # 
-  #   url          - The URL to post the information to (required)
-  #   user         - The user for HTTP Authentication (optional)
-  #   pass         - The password for HTTP Authentication.
+  # [*url*] The URL to post the information to (required)
+  # [*user*] The user for HTTP Authentication (optional)
+  # [*pass*] The password for HTTP Authentication.
   class Htpost
     
     def initialize(options)

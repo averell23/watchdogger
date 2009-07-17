@@ -3,11 +3,12 @@ require 'logger'
 module WatcherAction
   
   # Logs the event information to the standard log file
-  # Options:
   #
-  #  format - A format string that will receive the timestamp, watcher name and 
-  #           event message (in that order) as parameters (default message if not given)
-  #  severity - The severity of the log message (default: warn)
+  # =Options
+  #
+  # [*format*] A format string that will receive the timestamp, watcher name and 
+  #            event message (in that order) as parameters (default message if not given)
+  # [*severity*] The severity of the log message (default: warn)
   class LogAction
     
     def initialize(options)

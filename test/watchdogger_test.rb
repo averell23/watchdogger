@@ -1,34 +1,9 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
-module Watcher
-  class DummyWatcher < Watcher::Base
-    def initialize(config)
-      @watchit = config[:watchit]
-    end
-    def watch_it!
-      @watchit
-    end
-    
-  end
-end
-
-module WatcherAction
-  class DummyAction
-    def initialize(config)
-    end
-    def execute(event)
-      @executed = true
-      raise(Exception) unless(event.is_a?(WatcherEvent))
-      raise(ArgumentError, "Boom!")
-    end
-  end
-end
-
 class WatchdoggerTest < Test::Unit::TestCase
   
   def setup
-    Watcher.instance_variable_set(:@registered_watchers, nil)
-    WatcherAction.instance_variable_set(:@registered_actions, nil)
+   clear_registered
     WatcherAction.register('default', { :type => 'dummy_action' })
     WatcherAction.register('log_action', { 'type' => :log_action })
     Watcher.register('dummy', { :type => 'dummy_watcher', 'actions' => [ :default, :log_action ] })
@@ -85,10 +60,4 @@ class WatchdoggerTest < Test::Unit::TestCase
     assert_equal(true, action_status('default'))
   end
   
-  private
-  
-  def action_status(name)
-    action = WatcherAction.instance_variable_get(:@registered_actions).get_value(name)
-    action.instance_variable_get(:@executed)
-  end
 end

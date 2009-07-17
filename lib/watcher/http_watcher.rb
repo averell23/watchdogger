@@ -3,13 +3,14 @@ require 'net/http'
 module Watcher
   
   # Checks an http connection if it is active and returns the expected results.
-  # Options for this watcher:
+  #
+  # =Options
   # 
-  #   url           - The URL to query (required)
-  #   response      - The response code that is expected from the operation
-  #   content_match - A regular expression that is matched against the result.
+  # [*url*] The URL to query (required)
+  # [*response*] The response code that is expected from the operation
+  # [*content_match*] A regular expression that is matched against the result.
   #                   The watcher fails if the expression doesn't match
-  #   timeout       - The timeout for the connection attempt. Defaults to 10 sec
+  # [*timeout*] The timeout for the connection attempt. Defaults to 10 sec
   # 
   # If neither response nor content_match are given, the watcher will expect a 
   # 200 OK response from the server.

@@ -24,9 +24,9 @@ module WatchDogger # :nodoc:
     # Initializes the watchdog system, sets up the log. In addition to the configured
     # Watchers and WatcherActions, the system can take the following arguments:
     #
-    #   log_level     - The log level for the system log. This will apply to all log messages
-    #   logfile       - The log file for the system. Defaults to STDOUT
-    #   interval      - The watch interval in seconds. Defaults to 60
+    #  [*log_level*] The log level for the system log. This will apply to all log messages
+    #  [*logfile*] The log file for the system. Defaults to STDOUT
+    #  [*interval*] The watch interval in seconds. Defaults to 60
     def init_system(options)
       # First setup the logging options
       @log_level = options.get_value(:log_level)
