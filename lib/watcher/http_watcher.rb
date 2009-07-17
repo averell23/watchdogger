@@ -11,12 +11,16 @@ module Watcher
   # [*content_match*] A regular expression that is matched against the result.
   #                   The watcher fails if the expression doesn't match
   # [*timeout*] The timeout for the connection attempt. Defaults to 10 sec
-  # 
+  # [*falloff*] If a successful connection is made, this is subtracted from
+  #             the internal severity. (Default: 100, completely reset previous
+  #             failures)
+  #
   # If neither response nor content_match are given, the watcher will expect a 
   # 200 OK response from the server.
   #
   # This watcher resets the current severity on each successful connect, so that
-  # only continuous failures count against the trigger condition.
+  # only continuous failures count against the trigger condition - see the falloff
+  # option.
   class HttpWatcher < Watcher::Base
     
     def initialize(config)
@@ -26,6 +30,8 @@ module Watcher
       response = config.get_value(:response)
       @response = ((!response && !match) ? "200" : response)
       @timeout = config.get_value(:timeout, 10).to_i
+      @falloff = config.get_value(:falloff, 100).to_i
+      @current_severity = 0
     end
     
     def watch_it!
@@ -40,7 +46,7 @@ module Watcher
       elsif(@content_match && !@content_match.match(res.body))
         test_failed = "Did not find #{@content_match.to_s} at #{@url}"
       end
-      @current_severity = 0 unless(test_failed)
+      @current_severity = [0, @current_severity - @falloff].min unless(test_failed)
       dog_log.debug('HttpWatcher') { "Watch of #{@url} resulted in #{test_failed}" }
       test_failed
     rescue Exception => e
