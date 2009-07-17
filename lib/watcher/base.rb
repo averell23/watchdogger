@@ -39,21 +39,27 @@ module Watcher
        action_config = configuration.get_value(:actions)
        raise(ArgumentError, "No actions passed to watcher.") unless(action_config)
        if(action_config.is_a?(Array))
-         action_config.each { |ac| actions << ac }
+         action_config.each { |ac| add_action_to(actions, ac) }
        else
          assit(action_config.is_a?(String) || action_config.is_a?(Symbol))
-         actions << action_config
+         add_action_to(actions, action_config)
        end
        warn_config = configuration.get_value(:warn_actions)
        if(warn_config.is_a?(Array))
-         warn_config.each { |ac| warn_actions << ac }
+         warn_config.each { |ac| add_action_to(warn_actions, ac) }
        elsif(warn_config)
          assit_kind_of(String, warn_config)
-         warn_actions << warn_config
+         add_action_to(warn_actions, warn_config)
        end
      end
 
      private
+
+     # Adds the given action to the array, if it exists
+     def add_action_to(ary, action)
+       raise(NameError, "Action does not exist: #{action}") unless(WatcherAction.has_action?(action))
+       ary << action
+     end
 
      # Checks the trigger and does everything to call the actions connected to this watcher
      def do_watch!

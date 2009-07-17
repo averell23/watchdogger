@@ -29,6 +29,11 @@ module WatcherAction
       dog_log.error('Action Handler') { "Could not execute #{name}: #{e.message} (Registered actions: #{registered_actions.keys.join(', ')})" }
       false
     end
+    
+    # Checks if the given action exists
+    def has_action?(name)
+      registered_actions[name.to_sym] != nil
+    end
   
     private
     
