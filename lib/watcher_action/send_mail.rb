@@ -16,7 +16,7 @@ module WatcherAction
   #          XML representation of the event. If not set, it will default
   #          to a sensible description of the event. You can include the
   #          event's message as for the subject
-  # [*server*] Address or name of the mail server to use (required)
+  # [*server*] Address or name of the mail server to use (defaults to localhost)
   # [*port*] Port to connect to (default: 25)
   # [*user*] Mail server user name
   # [*pass*] Mail server password
@@ -28,7 +28,7 @@ module WatcherAction
       @sender = config.get_value(:sender, false)
       @subject = config.get_value(:subject, "Watchdogger triggered: %s")
       @body = config.get_value(:body)
-      @server = config.get_value(:server, false)
+      @server = config.get_value(:server, 'localhost')
       @port = config.get_value(:port, '25')
       @user = config.get_value(:user)
       @pass = config.get_value(:pass)
