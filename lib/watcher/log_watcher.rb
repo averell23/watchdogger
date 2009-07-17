@@ -82,6 +82,7 @@ module Watcher
           :reopen_suspicious => true,
           :suspicious_interval => (@interval_max * 3)
         )
+        dog_log.info('Logger Thread') { "Log watcher thread started" }
         logfile.tail do |line|
           if(matcher.match(line))
             triggered!

@@ -5,17 +5,34 @@ module WatcherAction
   # =Options
   #
   # [*pidfile*] The file containing the process id
-  # [*signal*] The signal to send to the process. Defaults to KILL
+  # [*signal*] The signal to send to the process. 
+  #            This may be an array or a comma-separated
+  #            list of signals. If there is more than one signal, this
+  #            will wait for _wait_ seconds before trying the next
+  #            signal, if the process didn't die.
+  #            Defaults to KILL
+  # [*wait*] Time to wait between signals (Default: 5)
   class KillProcess
     
     def initialize(config)
       @pidfile = config.get_value(:pidfile, false)
-      @signal= config.get_value(:signal, 'KILL')
+      @signals = config.get_list(:signal, 'KILL')
+      @wait = config.get_value(:wait, 5).to_i
     end
     
     def execute(event)
-      pid = File.open(@pidfile) { |io| io.read }
-      Process.kill(@signal, pid.to_i)
+      Thread.new(@signals, @wait, @pidfile) do |signals, wait, pidfile|
+        pid = File.open(pidfile) { |io| io.read }.to_i
+        signals.each_with_index do |signal, index|
+          sleep(wait) if(index > 0)
+          if(WatchDogger.check_process(pid))
+            dog_log.debug('KillerThread') { "Sending signal #{signal} to process #{pid}" }
+            Process.kill(signal, pid)
+          else
+            dog_log.debug('KillerThread') { "Process #{pid} is dead." }
+          end
+        end
+      end
     rescue Exception => e
       dog_log.warn { "Unable to kill process: #{e}" }
     end

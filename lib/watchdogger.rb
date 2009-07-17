@@ -105,17 +105,23 @@ module WatchDogger # :nodoc:
     # daemon is still running.
     def check_daemon
       return false unless(File.exists?(@pidfile))
-      pid = get_pid
+      check_process(get_pid)
+    end
+    
+    # Returns true if the system thinks that the given process is still alive
+    def check_process(pid)
       begin
         Process.kill(0, pid)
+        dog_log.debug('Watchdogger') { "Process #{pid} is alive" }
         true
       rescue Errno::EPERM
+        dog_log.debug('Watchdogger') { "No permissions for process #{pid} - seems to be running."}
         true
       rescue Errno::ESRCH
-        dog_log.info('Watchdogger') { "Old process #{pid} is stale, good to go." }
+        dog_log.debug('Watchdogger') { "Found stale process for #{pid}." }
         false
       rescue Exception => e
-        dog_log.error('Watchdogger') { "Could not find out if process #{pid} still runs (#{e.message}). Hoping for the best..." }
+        dog_log.info('Watchdogger') { "Could not find out if process #{pid} still runs (#{e.message}). Hoping for the best..." }
         false
       end
     end

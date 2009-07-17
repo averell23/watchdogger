@@ -52,22 +52,25 @@ module WatcherAction
       else
         msg.body = "The #{event.watcher.class.name} watcher of your watchdog triggered\nan event at #{event.timestamp}:\n#{event.message}"
       end
-      
-      
-      puts msg.to_s
-      
+
       smtp_params = [@server, @port]
       if(@user && @pass)
         smtp_params.concat([nil, @user, @pass, @authentication])
       end
       
       Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE) if(@enable_tls)
-      Net::SMTP.start(*smtp_params) do |smtp|
-        smtp.send_message(msg.to_s, @sender, @mail_to)
+      Thread.new(smtp_params, msg, @sender, @mail_to) do |params, msg, sender, mail_to|
+          begin
+          Net::SMTP.start(*params) do |smtp|
+            smtp.send_message(msg.to_s, sender, mail_to)
+          end
+          dog_log.debug('SMTP Thread') { "Sent mail to #{mail_to} through #{params.first}" }
+        rescue Exception => e
+          dog_log.error('SMTP Thread') { "Could not send mail to #{mail_to} on #{params.first}: #{e.message}" }
+        end
       end
-      dog_log.debug('SMTP Action') { "Sent mail to #{@mail_to} through #{@server}" }
     rescue Exception => e
-      dog_log.warn('SMTP Action') { "Could not send mail to #{@mail_to} on #{@server}: #{e.message}" }
+      dog_log.error('SMTP Action') { "Could not send mail to #{@mail_to} on #{@server}: #{e.message}" }
     end
     
   end
