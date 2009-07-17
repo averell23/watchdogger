@@ -34,7 +34,7 @@ module Watcher
         http.get(url.path) 
       end
       test_failed = false
-      if(@response && (@response != res.code))
+      if(@response && (@response.to_s != res.code))
         test_failed = "Unexpected HTTP response: #{res.code} for #{@url} - expected #{@response}"
       elsif(@content_match && !@content_match.match(res.body))
         test_failed = "Did not find #{@content_match.to_s} at #{@url}"

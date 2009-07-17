@@ -32,6 +32,12 @@ class HttpWatcherTest < Test::Unit::TestCase
     assert_equal(false, watcher.watch_it!)
   end
 
+  def test_simple_response_numerical
+    @default_options[:response] = 200
+    watcher = Watcher::HttpWatcher.new(@default_options)
+    assert_equal(false, watcher.watch_it!)
+  end
+
   def test_404_response
     @default_options[:url] = TEST_URL + '/narfnarf'
     @default_options[:response] = '404'
