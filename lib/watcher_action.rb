@@ -34,6 +34,11 @@ module WatcherAction
     def has_action?(name)
       registered_actions[name.to_sym] != nil
     end
+    
+    # Checks if the given action is registered with that name
+    def is_action?(name, action)
+      registered_actions[name.to_sym] == action
+    end
   
     private
     

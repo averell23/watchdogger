@@ -3,12 +3,18 @@
 actions:
   log_it: 
     type: log_action
+  mail_message:
+    type: send_mail
+    to: hahn@netseven.it
+    sender: averell@newgods.org
     
 watchers:
   test_hn:
     type: http_watcher
     url: http://www.foobar.or/
-    actions: log_it
+    actions: 
+      - log_it
+      - mail_message
     
 interval: 3
 # logfile: daemon.log

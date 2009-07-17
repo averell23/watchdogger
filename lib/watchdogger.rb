@@ -174,4 +174,16 @@ class Hash # :nodoc:
     value
   end
   
+  # Gets the given key as an array. If it's already an array, it will be returned,
+  # otherwise we'll check if it's a comma-separated list. The
+  # default will be processed in the same way as if was read from the Hash.
+  def get_list(sym_or_string, default = nil)
+    value = get_value(sym_or_string, default)
+    return value if(value.is_a?(Array))
+    assit(value.is_a?(String) || value.is_a?(Symbol))
+    value = value.to_s.split(',').collect do |val|
+      val.strip 
+    end
+  end
+  
 end

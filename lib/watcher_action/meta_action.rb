@@ -10,16 +10,18 @@ module WatcherAction
   class MetaAction
     
     def initialize(config)
-      actions = config.get_value(:actions, false)
-      if(actions.is_a?(Array))
-        @actions = actions
-      else
-        @actions = [ actions ]
-      end
+      actions = config.get_list(:actions, false)
+      actions.each { |ac| add_action(ac) }
     end
     
     def execute(event)
       @actions.each { |ac| WatcherAction.run_action(ac, event) }
+    end
+    
+    def add_action(action)
+      @actions ||= []
+      raise(ArgumentError, "Trying to add myself, creating a loop.") if(WatcherAction.is_action?(action, self))
+      @actions << action
     end
     
   end

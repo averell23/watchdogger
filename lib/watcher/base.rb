@@ -36,21 +36,10 @@ module Watcher
 
      # Sets up all actions for this watcher
      def setup_actions(configuration)
-       action_config = configuration.get_value(:actions)
-       raise(ArgumentError, "No actions passed to watcher.") unless(action_config)
-       if(action_config.is_a?(Array))
-         action_config.each { |ac| add_action_to(actions, ac) }
-       else
-         assit(action_config.is_a?(String) || action_config.is_a?(Symbol))
-         add_action_to(actions, action_config)
-       end
-       warn_config = configuration.get_value(:warn_actions)
-       if(warn_config.is_a?(Array))
-         warn_config.each { |ac| add_action_to(warn_actions, ac) }
-       elsif(warn_config)
-         assit_kind_of(String, warn_config)
-         add_action_to(warn_actions, warn_config)
-       end
+       action_config = configuration.get_list(:actions, false)
+       action_config.each { |ac| add_action_to(actions, ac) }
+       warn_config = configuration.get_list(:warn_actions, [])
+       warn_config.each { |ac| add_action_to(warn_actions, ac) }
      end
 
      private
