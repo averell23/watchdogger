@@ -5,16 +5,20 @@ actions:
     type: log_action
   mail_message:
     type: send_mail
-    to: hahn@netseven.it
-    sender: averell@newgods.org
+    to: one@gmail.com
+    sender: myself@gmail.com
+    server: smtp.gmail.com
+    user: test@gmail.com
+    pass: secret
+    port: 587
+    authentication: login
+    enable_tls: true
     
 watchers:
   test_hn:
     type: http_watcher
     url: http://www.foobar.or/
-    actions: 
-      - log_it
-      - mail_message
+    actions: log_it
     
 interval: 3
 # logfile: daemon.log

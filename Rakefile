@@ -36,4 +36,6 @@ Jeweler::Tasks.new do |s|
   s.add_dependency('rmail', '>= 1.0.0')
   s.add_dependency('builder', '>= 2.1.2')
   s.add_dependency('optiflag', '>= 0.6.5')
+  # Include the tlsmail hack if necessary, in 1.9. it should be included.
+  s.add_dependency('tlsmail', '>= 0.0.1') if(/^1.8/ =~ RUBY_VERSION)
 end
