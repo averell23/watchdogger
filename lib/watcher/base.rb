@@ -69,7 +69,7 @@ module Watcher
          run_actions(event)
          @current_severity = 0
        else
-         warn_actions(event)
+         run_warn_actions(event)
        end
 
        @last_run = Time.now
@@ -80,7 +80,7 @@ module Watcher
        actions.each { |ac| WatcherAction.run_action(ac, event) }
      end
 
-     def warn_actions(event)
+     def run_warn_actions(event)
        warn_actions.each { |ac| WatcherAction.run_action(ac, event) }
      end
 

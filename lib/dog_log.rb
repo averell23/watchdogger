@@ -9,12 +9,14 @@ class DogLog # :nodoc:
     # but should not usually be called on an active log.
     def setup(logfile, severity)
       @logfile = logfile
-      @severity = Logger.const_get(severity.upcase)
+      @severity = severity.is_a?(Fixnum) ? severity : Logger.const_get(severity.upcase)
       if(@logger)
         assit_fail('Resetting logfile')
         @logger.close if(@logger.respond_to?(:close))
         @logger = nil
       end
+    rescue NameError => e
+      raise(NameError, "Problems setting the log level: #{severity} (#{e.message})")
     end
     
     # If nothing is configured, we log to STDERR by default

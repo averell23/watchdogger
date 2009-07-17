@@ -73,6 +73,18 @@ class WatchdoggerTest < Test::Unit::TestCase
     assert_equal(true, action_status('default'))
   end
   
+  def test_warn_actions
+    WatcherAction.register('default-warn', { :type => 'dummy_action' })
+    assert_equal(nil, action_status('default'))
+    assert_equal(nil, action_status('default-warn'))
+    Watcher.register('dummy2', { 'type' => :dummy_watcher, 'actions' => :default, 'warn_actions' => 'default-warn', :watchit => 'Fail' , :severity => '50' })
+    Watcher.watch_all!
+    assert_equal(true, action_status('default-warn'))
+    assert_equal(nil, action_status('default'))
+    Watcher.watch_all!
+    assert_equal(true, action_status('default'))
+  end
+  
   private
   
   def action_status(name)
