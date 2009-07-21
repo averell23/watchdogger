@@ -1,0 +1,4 @@
+=0.2.1
+
+* Fixed log watcher not resetting status after trigger
+* The killer action will now avoid re-execution for a configurable amount of time.
