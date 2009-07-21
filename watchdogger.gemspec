@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{watchdogger}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Daniel Hahn"]
-  s.date = %q{2009-07-17}
+  s.date = %q{2009-07-21}
   s.default_executable = %q{watchdogger}
   s.description = %q{A small flexible watchdog system to monitor servers.}
   s.email = %q{ghub@limitedcreativity.org}
