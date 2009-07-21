@@ -5,6 +5,7 @@ require 'rake/testtask'
 require 'rake/clean'
 require 'rake/rdoctask'
 require 'jeweler'
+require 'gokdok'
 load 'watchdogger.gemspec'
 
 CLEAN.include("pkg", "lib/*.bundle", "html", "*.gem", ".config")
@@ -38,4 +39,8 @@ Jeweler::Tasks.new do |s|
   s.add_dependency('optiflag', '>= 0.6.5')
   # Include the tlsmail hack if necessary, in 1.9. it should be included.
   s.add_dependency('tlsmail', '>= 0.0.1') if(/^1.8/ =~ RUBY_VERSION)
+end
+
+Gokdok::Dokker.new do |gd|
+  gd.remote_path = ''
 end

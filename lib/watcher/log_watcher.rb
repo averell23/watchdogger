@@ -42,6 +42,7 @@ module Watcher
       is_triggered = false
       if(triggered?)
         is_triggered = "Found #{@match_str} in #{@file_name}"
+        reset_trigger
       end
       is_triggered
     rescue Exception => e

@@ -5,3 +5,4 @@ rdoc
 pkg
 html
 .rake_tasks
+.gh_pages

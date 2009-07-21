@@ -29,10 +29,11 @@ class LogWatcherTest < Test::Unit::TestCase
   def test_watcher_trigger
     File.open(logfile, 'a') do |io|
       20.times { io << 'nothing special' }
-      io << 'da_test'
+      10.times { io << 'da_test' }
     end
     sleep 2
     assert_kind_of(String, @watcher.watch_it!)
+    assert_equal(false, @watcher.watch_it!)
   end
   
 end
