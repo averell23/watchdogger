@@ -190,10 +190,10 @@ it, you may want to check for any rogue processes.
             onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000007-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/watcher/log_watcher.rb, line 51</span>
-51:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cleanup</span>
-52:       <span class="ruby-ivar">@log_watcher</span>.<span class="ruby-identifier">kill</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-ivar">@log_watcher</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@log_watcher</span>.<span class="ruby-identifier">stop?</span>)
-53:     <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># File lib/watcher/log_watcher.rb, line 52</span>
+52:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cleanup</span>
+53:       <span class="ruby-ivar">@log_watcher</span>.<span class="ruby-identifier">kill</span> <span class="ruby-keyword kw">if</span>(<span class="ruby-ivar">@log_watcher</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@log_watcher</span>.<span class="ruby-identifier">stop?</span>)
+54:     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
@@ -222,11 +222,12 @@ it, you may want to check for any rogue processes.
 42:       <span class="ruby-identifier">is_triggered</span> = <span class="ruby-keyword kw">false</span>
 43:       <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">triggered?</span>)
 44:         <span class="ruby-identifier">is_triggered</span> = <span class="ruby-node">&quot;Found #{@match_str} in #{@file_name}&quot;</span>
-45:       <span class="ruby-keyword kw">end</span>
-46:       <span class="ruby-identifier">is_triggered</span>
-47:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-48:       <span class="ruby-node">&quot;Exception running the log watcher: #{e}&quot;</span>
-49:     <span class="ruby-keyword kw">end</span>
+45:         <span class="ruby-identifier">reset_trigger</span>
+46:       <span class="ruby-keyword kw">end</span>
+47:       <span class="ruby-identifier">is_triggered</span>
+48:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+49:       <span class="ruby-node">&quot;Exception running the log watcher: #{e}&quot;</span>
+50:     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
